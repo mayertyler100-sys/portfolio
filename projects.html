@@ -72,27 +72,29 @@
                 }
 
                 container.innerHTML = projects.map(project => `
-                    <div class="project-embed-card">
-                        <div class="project-header">
-                            <div class="project-info">
-                                <h2>${escapeHtml(project.name)}</h2>
-                                <p>${escapeHtml(project.description)}</p>
-                                ${project.tags ? `
-                                    <div class="project-tags">
-                                        ${project.tags.map(tag => `<span class="tag">${escapeHtml(tag)}</span>`).join('')}
-                                    </div>
-                                ` : ''}
-                                <div class="project-links">
-                                    ${project.demo ? `<a href="${escapeHtml(project.demo)}" target="_blank">Open Fullscreen</a>` : ''}
-                                    ${project.github ? `<a href="${escapeHtml(project.github)}" target="_blank">GitHub</a>` : ''}
+                    <div class="project-card">
+                        ${project.screenshot ? `
+                            <div class="project-screenshot">
+                                <img src="${escapeHtml(project.screenshot)}" alt="${escapeHtml(project.name)} screenshot">
+                            </div>
+                        ` : `
+                            <div class="project-screenshot placeholder">
+                                <div class="placeholder-icon">🚀</div>
+                            </div>
+                        `}
+                        <div class="project-info">
+                            <h2>${escapeHtml(project.name)}</h2>
+                            <p>${escapeHtml(project.description)}</p>
+                            ${project.tags ? `
+                                <div class="project-tags">
+                                    ${project.tags.map(tag => `<span class="tag">${escapeHtml(tag)}</span>`).join('')}
                                 </div>
+                            ` : ''}
+                            <div class="project-links">
+                                ${project.demo ? `<a href="${escapeHtml(project.demo)}" target="_blank" class="btn-primary">Launch App</a>` : ''}
+                                ${project.github ? `<a href="${escapeHtml(project.github)}" target="_blank" class="btn-secondary">View Code</a>` : ''}
                             </div>
                         </div>
-                        ${project.demo ? `
-                            <div class="project-preview">
-                                <iframe src="${escapeHtml(project.demo)}" title="${escapeHtml(project.name)}" loading="lazy"></iframe>
-                            </div>
-                        ` : ''}
                     </div>
                 `).join('');
 
