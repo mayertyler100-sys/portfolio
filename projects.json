@@ -1,0 +1,16 @@
+[
+    {
+        "name": "Golf Swing Analyzer",
+        "description": "AI-powered golf swing analysis app using MediaPipe pose detection. Analyzes swing phases, provides scoring, and tracks progress over time.",
+        "tags": ["JavaScript", "MediaPipe", "Chart.js"],
+        "demo": "http://localhost:8001",
+        "github": "https://github.com/mayertyler100-sys/golf-swing-app"
+    },
+    {
+        "name": "Barcode Scanner App",
+        "description": "Web-based barcode scanner with product lookup and recycling information. Includes location-based recycling center finder.",
+        "tags": ["JavaScript", "HTML5", "APIs"],
+        "demo": "http://localhost:8003/scanner.html",
+        "github": "https://github.com/mayertyler100-sys/barcode-scanner-app"
+    }
+]

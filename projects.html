@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects - Tyler Mayer</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="banner">
+        <div class="banner-content">
+            <span>Welcome to my portfolio</span>
+        </div>
+        <button class="theme-toggle" onclick="toggleDarkMode()" title="Toggle dark mode">🌙</button>
+    </div>
+
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="nav-brand">Tyler Mayer</a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="projects.html" class="active">Projects</a>
+                <a href="testimonials.html">Testimonials</a>
+                <a href="blog.html">Blog</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section class="projects-page">
+            <h1>Projects</h1>
+            <p class="section-intro">A collection of projects I've built. Try them out below!</p>
+
+            <div id="projectsList" class="projects-list">
+                <!-- Projects loaded from projects.json -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Tyler Mayer. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Dark mode toggle
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('darkMode', isDark);
+            document.querySelector('.theme-toggle').textContent = isDark ? '☀️' : '🌙';
+        }
+
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            document.addEventListener('DOMContentLoaded', () => {
+                document.querySelector('.theme-toggle').textContent = '☀️';
+            });
+        }
+
+        async function loadProjects() {
+            const container = document.getElementById('projectsList');
+
+            try {
+                const response = await fetch('projects.json');
+                const projects = await response.json();
+
+                if (projects.length === 0) {
+                    container.innerHTML = '<p class="no-content">No projects yet.</p>';
+                    return;
+                }
+
+                container.innerHTML = projects.map(project => `
+                    <div class="project-embed-card">
+                        <div class="project-header">
+                            <div class="project-info">
+                                <h2>${escapeHtml(project.name)}</h2>
+                                <p>${escapeHtml(project.description)}</p>
+                                ${project.tags ? `
+                                    <div class="project-tags">
+                                        ${project.tags.map(tag => `<span class="tag">${escapeHtml(tag)}</span>`).join('')}
+                                    </div>
+                                ` : ''}
+                                <div class="project-links">
+                                    ${project.demo ? `<a href="${escapeHtml(project.demo)}" target="_blank">Open Fullscreen</a>` : ''}
+                                    ${project.github ? `<a href="${escapeHtml(project.github)}" target="_blank">GitHub</a>` : ''}
+                                </div>
+                            </div>
+                        </div>
+                        ${project.demo ? `
+                            <div class="project-preview">
+                                <iframe src="${escapeHtml(project.demo)}" title="${escapeHtml(project.name)}" loading="lazy"></iframe>
+                            </div>
+                        ` : ''}
+                    </div>
+                `).join('');
+
+            } catch (error) {
+                console.error('Error loading projects:', error);
+                container.innerHTML = '<p class="no-content">Could not load projects.</p>';
+            }
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        document.addEventListener('DOMContentLoaded', loadProjects);
+    </script>
+</body>
+</html>

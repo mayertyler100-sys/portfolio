@@ -1,0 +1,9 @@
+[
+    {
+        "title": "Welcome to My Blog",
+        "date": "January 2024",
+        "summary": "My first blog post - introducing what I'll be writing about.",
+        "tags": ["Welcome", "Introduction"],
+        "content": "<p>Welcome to my blog! I'll be sharing my journey as a developer, tutorials, and insights from projects I'm working on.</p><p>Stay tuned for more posts about integration development, web applications, and lessons learned along the way.</p>"
+    }
+]

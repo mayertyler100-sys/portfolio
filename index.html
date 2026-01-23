@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tyler Mayer - Portfolio</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="banner">
+        <div class="banner-content">
+            <span>Welcome to my portfolio</span>
+        </div>
+        <button class="theme-toggle" onclick="toggleDarkMode()" title="Toggle dark mode">🌙</button>
+    </div>
+
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="nav-brand">Tyler Mayer</a>
+            <div class="nav-links">
+                <a href="index.html" class="active">Home</a>
+                <a href="projects.html">Projects</a>
+                <a href="testimonials.html">Testimonials</a>
+                <a href="blog.html">Blog</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="container">
+            <h1>Tyler Mayer</h1>
+            <p class="tagline">Software Developer</p>
+            <div class="social-links">
+                <a href="https://github.com/mayertyler100-sys" target="_blank">GitHub</a>
+                <a href="https://www.linkedin.com/in/tyler-mayer-550679100/" target="_blank">LinkedIn</a>
+                <a href="mailto:mayertyler100@gmail.com">Email</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="about">
+            <h2>About Me</h2>
+            <p>Welcome to my portfolio! I'm a developer passionate about building useful applications. Check out my projects and testimonials to learn more about my work.</p>
+        </section>
+
+        <section class="certifications">
+            <h2>Certifications</h2>
+            <div id="certificationsList" class="certifications-grid">
+                <!-- Certifications loaded from certifications.json -->
+            </div>
+        </section>
+
+        <section class="education">
+            <h2>Education</h2>
+            <div id="educationList" class="education-list">
+                <!-- Education loaded from education.json -->
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Dark mode toggle
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('darkMode', isDark);
+            document.querySelector('.theme-toggle').textContent = isDark ? '☀️' : '🌙';
+        }
+
+        // Load saved preference
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            document.addEventListener('DOMContentLoaded', () => {
+                document.querySelector('.theme-toggle').textContent = '☀️';
+            });
+        }
+
+        async function loadCertifications() {
+            const container = document.getElementById('certificationsList');
+
+            try {
+                const response = await fetch('certifications.json');
+                const certs = await response.json();
+
+                if (certs.length === 0) {
+                    container.innerHTML = '<p class="no-content">No certifications yet.</p>';
+                    return;
+                }
+
+                container.innerHTML = certs.map(cert => `
+                    <div class="cert-card">
+                        ${cert.thumbnail
+                            ? `<div class="cert-thumbnail"><img src="${escapeHtml(cert.thumbnail)}" alt="${escapeHtml(cert.name)}"></div>`
+                            : `<div class="cert-icon">🏆</div>`
+                        }
+                        <div class="cert-info">
+                            <h3>${escapeHtml(cert.name)}</h3>
+                            <p class="cert-issuer">${escapeHtml(cert.issuer)}</p>
+                            ${cert.date ? `<p class="cert-date">${escapeHtml(cert.date)}</p>` : ''}
+                            ${cert.link ? `<a href="${escapeHtml(cert.link)}" target="_blank">View Credential</a>` : ''}
+                        </div>
+                    </div>
+                `).join('');
+
+            } catch (error) {
+                console.error('Error loading certifications:', error);
+                container.innerHTML = '<p class="no-content">Could not load certifications.</p>';
+            }
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        async function loadEducation() {
+            const container = document.getElementById('educationList');
+
+            try {
+                const response = await fetch('education.json');
+                const education = await response.json();
+
+                if (education.length === 0) {
+                    container.innerHTML = '<p class="no-content">No education listed yet.</p>';
+                    return;
+                }
+
+                container.innerHTML = education.map(edu => `
+                    <div class="edu-card">
+                        ${edu.icon
+                            ? `<div class="edu-icon"><img src="${escapeHtml(edu.icon)}" alt=""></div>`
+                            : `<div class="edu-icon">🎓</div>`
+                        }
+                        <div class="edu-info">
+                            <h3>${escapeHtml(edu.school)}</h3>
+                            <p class="edu-degree">${escapeHtml(edu.degree)}</p>
+                            ${edu.field ? `<p class="edu-field">${escapeHtml(edu.field)}</p>` : ''}
+                            ${edu.years ? `<p class="edu-years">${escapeHtml(edu.years)}</p>` : ''}
+                            ${edu.description ? `<p class="edu-description">${escapeHtml(edu.description)}</p>` : ''}
+                        </div>
+                    </div>
+                `).join('');
+
+            } catch (error) {
+                console.error('Error loading education:', error);
+                container.innerHTML = '<p class="no-content">Could not load education.</p>';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadCertifications();
+            loadEducation();
+        });
+    </script>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Tyler Mayer. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

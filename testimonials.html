@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testimonials - Tyler Mayer</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="banner">
+        <div class="banner-content">
+            <span>Welcome to my portfolio</span>
+        </div>
+        <button class="theme-toggle" onclick="toggleDarkMode()" title="Toggle dark mode">🌙</button>
+    </div>
+
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="nav-brand">Tyler Mayer</a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="projects.html">Projects</a>
+                <a href="testimonials.html" class="active">Testimonials</a>
+                <a href="blog.html">Blog</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section class="testimonials-page">
+            <h1>Testimonials</h1>
+            <p class="section-intro">What colleagues and connections have said about working with me.</p>
+
+            <div id="testimonialsList" class="testimonials-grid">
+                <!-- Testimonials loaded from testimonials.json -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Tyler Mayer. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Dark mode toggle
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('darkMode', isDark);
+            document.querySelector('.theme-toggle').textContent = isDark ? '☀️' : '🌙';
+        }
+
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            document.addEventListener('DOMContentLoaded', () => {
+                document.querySelector('.theme-toggle').textContent = '☀️';
+            });
+        }
+
+        async function loadTestimonials() {
+            const container = document.getElementById('testimonialsList');
+
+            try {
+                const response = await fetch('testimonials.json');
+                const testimonials = await response.json();
+
+                if (testimonials.length === 0) {
+                    container.innerHTML = '<p class="no-content">No testimonials yet.</p>';
+                    return;
+                }
+
+                container.innerHTML = testimonials.map(t => `
+                    <div class="testimonial-card">
+                        <div class="testimonial-content">
+                            <p>"${escapeHtml(t.quote)}"</p>
+                        </div>
+                        <div class="testimonial-author">
+                            <div class="author-info">
+                                <strong>${escapeHtml(t.name)}</strong>
+                                <span>${escapeHtml(t.title)}</span>
+                                ${t.company ? `<span class="company">${escapeHtml(t.company)}</span>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+
+            } catch (error) {
+                console.error('Error loading testimonials:', error);
+                container.innerHTML = '<p class="no-content">Could not load testimonials.</p>';
+            }
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        document.addEventListener('DOMContentLoaded', loadTestimonials);
+    </script>
+</body>
+</html>
