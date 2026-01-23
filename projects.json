@@ -4,7 +4,8 @@
         "description": "AI-powered golf swing analysis app using MediaPipe pose detection. Analyzes swing phases, provides scoring, and tracks progress over time.",
         "tags": ["JavaScript", "MediaPipe", "Chart.js"],
         "demo": "https://golf-swing-l4d9a1t41-tyler-mayers-projects.vercel.app",
-        "github": "https://github.com/mayertyler100-sys/golf-swing-app"
+        "github": "https://github.com/mayertyler100-sys/golf-swing-app",
+        "screenshot": "assets/golf-swing-screenshot.png"
     },
     {
         "name": "Barcode Scanner App",
