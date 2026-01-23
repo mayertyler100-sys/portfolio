@@ -11,7 +11,7 @@
         "name": "Barcode Scanner App",
         "description": "Web-based barcode scanner with product lookup and recycling information. Includes location-based recycling center finder.",
         "tags": ["JavaScript", "HTML5", "APIs"],
-        "demo": "https://barcode-scanner-olioekhs8-tyler-mayers-projects.vercel.app",
+        "demo": "https://barcode-scanner-app-zeta.vercel.app/scanner.html",
         "github": "https://github.com/mayertyler100-sys/barcode-scanner-app"
     }
 ]
