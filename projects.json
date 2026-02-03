@@ -3,7 +3,7 @@
         "name": "Golf Swing Analyzer",
         "description": "AI-powered golf swing analysis app using MediaPipe pose detection. Analyzes swing phases, provides scoring, compares against pro swings, and tracks progress. Features tiered subscription system with RevenueCat integration.",
         "tags": ["JavaScript", "MediaPipe", "Chart.js", "RevenueCat"],
-        "demo": "https://golf-swing-l4d9a1t41-tyler-mayers-projects.vercel.app",
+        "demo": "https://golf-swing-app-lovat.vercel.app/",
         "github": "https://github.com/mayertyler100-sys/golf-swing-app",
         "screenshot": "assets/golf-swing-screenshot.png"
     },
